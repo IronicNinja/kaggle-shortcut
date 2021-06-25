@@ -1,12 +1,16 @@
 from selenium import webdriver
 from time import sleep
 import time
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class kaggleBot():
     def __init__(self):
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--no-sandbox')
-        self.driver = webdriver.Chrome('my_webdriver_filepath', options=chrome_options)
+        self.driver = webdriver.Chrome(os.getenv('DRIVER_PATH'), options=chrome_options)
 
     def fTry(self, path, elementType = "xpath", debug = False, stop = 0.5):
         # Force try function
@@ -50,9 +54,15 @@ class kaggleBot():
 
     def end(self):
         self.driver.quit()
-        
-bot = kaggleBot()
-bot.start('my_username', 'my_password')
-sleep(3) # Allow the bot to start
-bot.runNotebook('my_notebook_link')
-bot.end()
+
+"""
+def run(username, password, notebookLink):
+    bot = kaggleBot()
+    bot.start(username, password)
+    sleep(3) # Allow the bot to start
+    bot.runNotebook(notebookLink)
+    sleep(5) # Allow the bot to end
+    bot.end()
+
+run(os.getenv('KAGGLE_USERNAME'), os.getenv('KAGGLE_PASSWORD'), 'https://www.kaggle.com/ironicninja/bomb-party-dictionary-analysis')
+"""
