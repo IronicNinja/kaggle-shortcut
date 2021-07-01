@@ -10,4 +10,5 @@ def run(username, password, notebookLink):
     sleep(5) # Allow the bot to end
     bot.end()
 
-run(os.getenv('KAGGLE_USERNAME'), os.getenv('KAGGLE_PASSWORD'), 'https://www.kaggle.com/ironicninja/bomb-party-dictionary-analysis')
+run(os.getenv('KAGGLE_USERNAME'), os.getenv('KAGGLE_PASSWORD'), 'https://www.kaggle.com/ironicninja/daily-covid-19-interactive-plots')
+run(os.getenv('KAGGLE_USERNAME'), os.getenv('KAGGLE_PASSWORD'), 'https://www.kaggle.com/ironicninja/vaccination-progress-us-world')
