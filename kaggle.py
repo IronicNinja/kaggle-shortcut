@@ -3,19 +3,19 @@ from time import sleep
 import time
 import os
 from dotenv import load_dotenv
+import chromedriver_autoinstaller
 
 load_dotenv()
 
 class kaggleBot():
     def __init__(self):
+        chromedriver_autoinstaller.install()
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--no-sandbox')
-        self.driver = webdriver.Chrome(os.getenv('DRIVER_PATH'), options=chrome_options)
+        self.driver = webdriver.Chrome(options=chrome_options)
 
-    def fTry(self, path, elementType = "xpath", debug = False, stop = 0.5):
-        # Force try function
-
-        c = 1
+    def fTry(self, path, elementType = "xpath", debug = True, stop = 0.5):
+        c = 2
         sleep(stop)
         while True:
             try:
@@ -28,7 +28,7 @@ class kaggleBot():
                 return pathOutput
             except Exception as e:
                 if debug:
-                    print(f"Waiting... {c}; Error: {e}")
+                    print(f"Initiating try #{c}. The error was: {e}")
                 c += 1
                 sleep(stop)
 
@@ -47,22 +47,10 @@ class kaggleBot():
     def runNotebook(self, notebookLink):
         start = time.time()
         self.driver.get(notebookLink)
-        self.fTry('//*[@id="kernel-header-wrapper"]/div[1]/span[2]/a/button').click() # Edit
+        self.fTry('//*[@id="site-content"]/div[3]/div[2]/div[1]/div/a/button').click() # Edit
         self.fTry('//*[@id="site-content"]/div[2]/div[1]/div[2]/div[4]/div[1]/button', stop = 10).click() # Save Version
         self.fTry('//*[@id="site-content"]/div[2]/div[4]/div[1]/div/div[2]/button[1]').click() # Save
         print(f"Notebook has begun running. It took {time.time()-start} seconds.")
 
     def end(self):
         self.driver.quit()
-
-"""
-def run(username, password, notebookLink):
-    bot = kaggleBot()
-    bot.start(username, password)
-    sleep(3) # Allow the bot to start
-    bot.runNotebook(notebookLink)
-    sleep(5) # Allow the bot to end
-    bot.end()
-
-run(os.getenv('KAGGLE_USERNAME'), os.getenv('KAGGLE_PASSWORD'), 'https://www.kaggle.com/ironicninja/bomb-party-dictionary-analysis')
-"""
